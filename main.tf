@@ -1,11 +1,15 @@
 
+#####################################
+# S3
+#####################################
+
+
 # create a s3 bucket 
 resource "aws_s3_bucket" "travel_website" {
-    bucket = "latifa-travel-website"
+    bucket = var.bucket_name
     tags = {
-        environement = "dev"
+        environement = var.environement
     }
-  
 }
 
 # define s3 public access block and attach it to our target s3 bucket
@@ -13,7 +17,7 @@ resource "aws_s3_bucket_public_access_block" "travel_website" {
     bucket = aws_s3_bucket.travel_website.bucket  
     block_public_acls = true 
     block_public_policy = true 
-    ignore_public_acls = true                   # deny public access to our s3 ( only cloudfront)
+    ignore_public_acls = true                   # deny public access to our s3 
     restrict_public_buckets = true
 }
 
@@ -22,25 +26,24 @@ resource "aws_s3_bucket_public_access_block" "travel_website" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "travel_website" {
     bucket = aws_s3_bucket.travel_website.bucket 
     rule {
-      apply_server_side_encryption_by_default {
+      apply_server_side_encryption_by_default {     #encryptiona at rest
         sse_algorithm = "AES256"
       }
-    }
-  
+    } 
 }
 
 # define s3 versioning setting and attach it to our target s3 bucket 
 resource "aws_s3_bucket_versioning" "travel_website" {
     bucket = aws_s3_bucket.travel_website.bucket 
-    versioning_configuration {
+    versioning_configuration {                # enable for better security and preservation of data
       status = "Disabled"
     }
-  
 }
 
 
-# create cloudfront CDN
-
+#####################################
+# CLOUD FRONT 
+#####################################
 
 # first create the OAC 
 resource "aws_cloudfront_origin_access_control" "travel_website" {
@@ -51,7 +54,7 @@ resource "aws_cloudfront_origin_access_control" "travel_website" {
 }
 
 
-
+# create the cloudfront distribution
 resource "aws_cloudfront_distribution" "travel_website" {
   depends_on = [ aws_s3_bucket.travel_website, aws_cloudfront_origin_access_control.travel_website ]
   origin {
@@ -61,7 +64,7 @@ resource "aws_cloudfront_distribution" "travel_website" {
   }
 
   enabled             = true
-  comment             = "Some comment"
+  comment             = "Travel Website CDN"
   default_root_object = "index.html"
 
   default_cache_behavior {
@@ -69,13 +72,15 @@ resource "aws_cloudfront_distribution" "travel_website" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.travel_website.id
 
-    forwarded_values {
-      query_string = false
+    # forwarded_values {
+    #   query_string = false
 
-      cookies {
-        forward = "none"
-      }
-    }
+    #   cookies {
+    #     forward = "none"
+    #   }
+    # }
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # AWS Managed Caching Policy
+
 
     viewer_protocol_policy = "https-only"
     min_ttl                = 0
@@ -85,13 +90,14 @@ resource "aws_cloudfront_distribution" "travel_website" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "blacklist"
-      locations        = ["JP", "GB", "DE"]
+      restriction_type = "whitelist"
+     # restriction_type = "blacklist"
+      locations        = ["FR", "GB", "DE"]
     }
   }
 
   tags = {
-    Environment = "DEV"
+    Environment = var.environement
   }
 
   viewer_certificate {
@@ -99,6 +105,9 @@ resource "aws_cloudfront_distribution" "travel_website" {
   }
 }
 
+############################################
+# IAM POLICY - ALLOW CLOUFRONT TO ACCESS S3
+############################################
 
 # create iam policy to allow cloudfront to fetch data from s3
 data "aws_iam_policy_document" "allow_cloudfront" {
@@ -130,8 +139,6 @@ data "aws_iam_policy_document" "allow_cloudfront" {
 
 resource "aws_s3_bucket_policy" "allow_cloudfront" {
     bucket = aws_s3_bucket.travel_website.id 
-    policy = data.aws_iam_policy_document.allow_cloudfront.id
+    policy = data.aws_iam_policy_document.allow_cloudfront.json #policy needs to be in json format
 }
 
-# <ErrorResponse xmlns="http://cloudfront.amazonaws.com/doc/2020-05-31/"><Error><Type>Receiver</Type><Code>ServiceUnavailable</Code><Message>CloudFront encountered an internal error. Please try again.</Message></Error><RequestId>d7436c08-c79a-4b8b-8504-339afdf95e41</RequestId></ErrorResponse>
-#    http.response.header.content_type=text/xml http.response.header.x_amzn_requestid=d7436c08-c79a-4b8b-8504-339afdf95e41 tf_aws.signing_region="" tf_req_id=09942ee6-d6bb-3bc4-cc87-6f5776da52fc http.status_code=503 rpc.method=CreateDistributionWithTags rpc.service=CloudFront @caller=github.com/hashicorp/aws-sdk-go-base/v2@v2.0.0-beta.59/logging/tf_logger.go:45 @module=aws aws.region=eu-west-3 http.response.header.date="Wed, 13 Nov 2024 16:06:27 GMT" rpc.system=aws-api tf_provider_addr=registry.terraform.io/hashicorp/aws tf_rpc=ApplyResourceChange timestamp="2024-11-13T17:06:27.601+0100"
