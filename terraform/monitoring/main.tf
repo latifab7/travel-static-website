@@ -53,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_requests_alarm" {
     DistributionId = var.cloudfront_id # Replace with your CloudFront distribution ID
   }
 
-  alarm_actions = [aws_sns_topic.cloudwatch_alerts.arn]
+  alarm_actions = [aws_sns_topic.sns-travel-website.arn]
 }
 
 
