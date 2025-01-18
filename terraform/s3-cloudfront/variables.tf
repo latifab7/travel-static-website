@@ -4,12 +4,6 @@ variable "environement" {
     default = "prod"
 }
 
-variable "region" {
-    description = "aws region"
-    type = string 
-    default = "eu-west-3"
-}
-
 variable "bucket_name" {
     description = "bucket name"
     type = string
@@ -21,3 +15,10 @@ variable "acm_certificate" {
     type = string
     default = "arn:aws:acm:us-east-1:339713098679:certificate/17679843-981c-42d2-b1a0-dd5601e024b5"
 }
+
+variable "cloudfront_aliases" {
+    description = "domain name passed in aliases"
+    type = list(string)
+    default = ["www.istla.online"]
+}
+

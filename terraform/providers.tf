@@ -2,7 +2,7 @@ terraform {
   backend "s3" {        # tfstate file backup via S3 bucket
     bucket = "terraform-tfstate-stockage"
     key = "key/production/terraform.tfstate"
-    region = var.region
+    region = "eu-west-3"
   }
   required_providers {
     aws = {
@@ -14,5 +14,5 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = var.region
+  region = "eu-west-3"
 }

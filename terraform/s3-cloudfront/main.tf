@@ -1,4 +1,3 @@
-
 #####################################
 # S3
 #####################################
@@ -72,14 +71,6 @@ resource "aws_cloudfront_distribution" "travel_website" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.travel_website.id
 
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
-
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # AWS Managed Caching Policy
 
     viewer_protocol_policy = "redirect-to-https"
@@ -87,6 +78,8 @@ resource "aws_cloudfront_distribution" "travel_website" {
     default_ttl            = 3600
     max_ttl                = 86400
   }
+
+  aliases = var.cloudfront_aliases  # domain name associated 
 
   restrictions {
     geo_restriction {
