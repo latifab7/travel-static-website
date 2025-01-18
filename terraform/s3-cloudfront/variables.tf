@@ -13,7 +13,7 @@ variable "bucket_name" {
 variable "acm_certificate" {
     description = "ssl certificate if for domain name"
     type = string
-    default = "arn:aws:acm:us-east-1:339713098679:certificate/17679843-981c-42d2-b1a0-dd5601e024b5"
+    default = "arn:aws:acm:us-east-1:339713098679:certificate/c610cdae-e937-45be-8386-45a6749fe01c"
 }
 
 variable "cloudfront_aliases" {
