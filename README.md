@@ -54,6 +54,22 @@ here is the diagrams
 
 Note: The public/ folder, which contains the website assets (HTML, CSS, images), is excluded from this repository for security and privacy reasons.
 
+## About CloudFront: High Availability and Low Latency
+Amazon CloudFront is a global content delivery network (CDN) service that enhances the availability and performance of your website. It achieves this through:
+
+- High Availability:
+CloudFront leverages a global network of edge locations to ensure content is always delivered, even during high traffic or regional outages.
+- Low Latency:
+By caching content at edge locations close to users, CloudFront significantly reduces latency, ensuring faster load times and a better user experience.
+
+- Performance Comparison: Without CloudFront vs. With CloudFront
+Below is a side-by-side comparison of DNS propagation times and website latency, illustrating the performance improvement when using CloudFront:
+
+| Without CloudFront               | With CloudFront                 |
+|----------------------------------|---------------------------------|
+| ![Without CloudFront](assests/withoutcloudfront.png) | ![With CloudFront](assests/withcloudfront.png) |
+
+
 ## Setup Instructions
 To deploy the infrastructure and website, follow these steps:
 
@@ -68,8 +84,9 @@ A domain name registered (through Route 53 or an external provider).
 ### Deployment Steps
 1. Clone the Repository
 Clone the project repository to your local machine and navigate into it:
-``git clone https://github.com/yourusername/your-repository-name.git``
-``cd your-repository-name``
+
+`git clone https://github.com/yourusername/your-repository-name.git`
+`cd your-repository-name`
 
 2. Manually Request an ACM Certificate
 Request an ACM certificate in the AWS Management Console:
@@ -80,7 +97,8 @@ Request an ACM certificate in the AWS Management Console:
 
 3. Configure AWS Credentials
 Ensure your AWS credentials are configured properly via the AWS CLI or environment variables in GitLab CI/CD:
-``aws configure``
+
+`aws configure`
 
 4. Update Variables
 Modify the necessary variables.tf files in the repository to reflect your specific setup:
@@ -90,11 +108,14 @@ Modify the necessary variables.tf files in the repository to reflect your specif
 
 5. Initialize Terraform
 Prepare Terraform by initializing the working directory:
+
 ``terraform init``
 
 6. Apply the Terraform Configuration
 Deploy the AWS infrastructure by applying the Terraform configuration:
+
 ``terraform apply``
+
 This will create the necessary AWS resources, including S3, CloudFront, and monitoring configurations.
 
 7. Update Your Domain Name Records

@@ -6,7 +6,7 @@ resource "aws_sns_topic" "sns-travel-website" {
   name = "latifa-travel-website"
 }
 
-resource "aws_sns_topic_subscription" "name" {
+resource "aws_sns_topic_subscription" "sns_email" {
   protocol = "email"
   topic_arn = aws_sns_topic.sns-travel-website.arn
   endpoint = var.email
@@ -40,7 +40,7 @@ resource "aws_cloudwatch_metric_alarm" "client_error" {
 
 # CloudWatch Alarm for CloudFront Requests at 8,000,000 Requests Threshold
 resource "aws_cloudwatch_metric_alarm" "cloudfront_requests_alarm" {
-  alarm_name          = "CloudFront-Requests-8M"
+  alarm_name          = "CloudFront-Requests"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
   metric_name         = "Requests"

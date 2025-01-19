@@ -83,9 +83,8 @@ resource "aws_cloudfront_distribution" "travel_website" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "none"
-     # restriction_type = "blacklist"
-     # locations        = ["FR", "GB", "DE"]
+     restriction_type = "blacklist"
+     locations        = ["NP", "MC"]
     }
   }
 
