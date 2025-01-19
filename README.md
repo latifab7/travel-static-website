@@ -20,7 +20,7 @@ This is a personal project where I share my photography and travel experiences. 
 
 Note: The website's assets (HTML, CSS, images) are not included in this repository for privacy and security reasons. These assets are uploaded to AWS S3 as part of the live deployment.
 
-![website](assests/websitehomepage.png ""website homepage)
+![website](assests/websitehomepage.png)
 
 ## Tech Stack
 
@@ -100,7 +100,7 @@ This will create the necessary AWS resources, including S3, CloudFront, and moni
 7. Update Your Domain Name Records
 In your domain name provider's settings (e.g., Route 53 or an external provider), manually create a DNS record to map your custom domain name to the CloudFront domain name provided by Terraform.
 
-![domain](assets/ovhrecord.png "DNS RECORD")
+![domain](assests/ovhrecord.png)
 
 8. Set Up GitLab CI/CD
 Configure your GitLab CI/CD pipeline to automatically deploy changes to the S3 bucket. Refer to the .gitlab-ci.yml file in the repository for pipeline configuration.
