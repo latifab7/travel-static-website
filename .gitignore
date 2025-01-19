@@ -13,3 +13,5 @@ terraform.tfstate
 # terraform.tfstate.backup
 terraform.tfstate.backup
 
+# travel photography
+public/images/

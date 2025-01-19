@@ -85,8 +85,8 @@ A domain name registered (through Route 53 or an external provider).
 1. Clone the Repository
 Clone the project repository to your local machine and navigate into it:
 ```bash
-git clone https://github.com/yourusername/your-repository-name.git
-cd your-repository-name
+git clone https://github.com/latifab7/travel-static-website.git
+cd travel-static-website
 ```
 
 2. Manually Request an ACM Certificate
@@ -128,8 +128,15 @@ In your domain name provider's settings (e.g., Route 53 or an external provider)
 
 ![domain](assests/ovhrecord.png)
 
-8. Set Up GitLab CI/CD
-Configure your GitLab CI/CD pipeline to automatically deploy changes to the S3 bucket. Refer to the .gitlab-ci.yml file in the repository for pipeline configuration.
+8. Upload your website in S3
+Once your infrastructure is ready, upload your website files to the S3 bucket with the following command:
+```bash
+aws s3 sync local/path/to/website s3://your-s3-bucket-name/
+```
+This will sync the files from your local directory to the S3 bucket, making your website accessible online.
+
+9. Automated deployment with Gitlab CI/CD
+For a fully automated deployment process, you can set up GitLab CI/CD to deploy both the infrastructure and the website. Configure your GitLab pipeline to automatically sync updates to the S3 bucket. For pipeline setup details, refer to the .gitlab-ci.yml file in the repository.
 
 ## Deployment
 
