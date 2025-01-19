@@ -29,9 +29,8 @@ upload_content:
   before_script:
     - cd ./public/
   script:
-    - aws s3 sync ./public/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps
+    - aws s3 sync . s3://$S3_BUCKET_NAME/ 
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"' 
     - changes:
         - public/** # Automatically trigger if public/ changes
     - when: manual # Allow manual triggering if needed

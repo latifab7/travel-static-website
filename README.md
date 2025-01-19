@@ -167,6 +167,9 @@ To keep the project within the AWS Free Tier limits, we have optimized resources
 
 This approach ensures efficient cost management while maintaining a secure and functional infrastructure.
 
+
+![website](assests/page.png)
+
 ## License
 This project is licensed under the MIT License – see the LICENSE file for details.
 
