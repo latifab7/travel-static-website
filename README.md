@@ -39,7 +39,7 @@ Note: The website's assets (HTML, CSS, images) are not included in this reposito
 - GitLab CI/CD: Automates file transfers to S3 whenever there's a change in the repository.
 - CloudWatch: Monitors the AWS resources and sends alerts for 4xx errors, bucket size, HTTP requests.
 
-here is the diagrams 
+![diagrams](assests/diagram.png)
 
 ## Project Structure
 
@@ -84,9 +84,10 @@ A domain name registered (through Route 53 or an external provider).
 ### Deployment Steps
 1. Clone the Repository
 Clone the project repository to your local machine and navigate into it:
-
-`git clone https://github.com/yourusername/your-repository-name.git`
-`cd your-repository-name`
+```bash
+git clone https://github.com/yourusername/your-repository-name.git
+cd your-repository-name
+```
 
 2. Manually Request an ACM Certificate
 Request an ACM certificate in the AWS Management Console:
@@ -98,7 +99,9 @@ Request an ACM certificate in the AWS Management Console:
 3. Configure AWS Credentials
 Ensure your AWS credentials are configured properly via the AWS CLI or environment variables in GitLab CI/CD:
 
-`aws configure`
+```bash
+aws configure
+```
 
 4. Update Variables
 Modify the necessary variables.tf files in the repository to reflect your specific setup:
@@ -108,13 +111,15 @@ Modify the necessary variables.tf files in the repository to reflect your specif
 
 5. Initialize Terraform
 Prepare Terraform by initializing the working directory:
-
-``terraform init``
+```bash
+terraform init
+```
 
 6. Apply the Terraform Configuration
 Deploy the AWS infrastructure by applying the Terraform configuration:
-
-``terraform apply``
+```bash
+terraform apply
+```
 
 This will create the necessary AWS resources, including S3, CloudFront, and monitoring configurations.
 
