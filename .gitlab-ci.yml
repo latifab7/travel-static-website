@@ -20,7 +20,6 @@ deploy_infrastructure:
     - terraform init
     - terraform apply -auto-approve
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"' # Run on the first push
     - when: manual # Allow manual triggering later if needed
 
 
@@ -32,7 +31,7 @@ upload_content:
   script:
     - aws s3 sync ./public/ s3://$S3_BUCKET_NAME/ --delete --exact-timestamps
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"' # Run on the first push
+    - if: '$CI_PIPELINE_SOURCE == "push"' 
     - changes:
         - public/** # Automatically trigger if public/ changes
     - when: manual # Allow manual triggering if needed
