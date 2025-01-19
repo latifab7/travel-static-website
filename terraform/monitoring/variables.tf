@@ -13,3 +13,8 @@ variable "travel_bucket_name" {
     description = "travel bucket name for cloudwatch resource"
     type = string
 }
+
+variable "sns_name" {
+    type = string
+    default = "latifa-static-travel"
+}

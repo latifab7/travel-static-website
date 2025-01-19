@@ -3,7 +3,7 @@
 #####################################
 
 resource "aws_sns_topic" "sns-travel-website" {
-  name = "latifa-travel-website"
+  name = var.sns_name
 }
 
 resource "aws_sns_topic_subscription" "sns_email" {
