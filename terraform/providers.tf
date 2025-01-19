@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {        # tfstate file backup via S3 bucket
-    bucket = "terraform-tfstate-stockage"
+    bucket = "tf-tfstate-stockage"
     key = "key/production/terraform.tfstate"
     region = "eu-west-3"
   }
