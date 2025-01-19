@@ -36,5 +36,3 @@ upload_content:
     - changes:
         - public/** # Automatically trigger if public/ changes
     - when: manual # Allow manual triggering if needed
-  tags:
-    - deploy
