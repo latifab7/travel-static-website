@@ -12,7 +12,13 @@ terraform {
   }
 }
 
-# Configure the AWS Provider
+# Default AWS Provider
 provider "aws" {
   region = "eu-west-3"
+}
+
+# Provider for Cloudwatch Alarms ans SNS 
+provider "aws" {
+  alias = "us-east-1"
+  region = "us-east-1"
 }

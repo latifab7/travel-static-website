@@ -14,7 +14,13 @@ variable "travel_bucket_name" {
     type = string
 }
 
-variable "sns_name" {
+variable "sns_s3_alert" {
     type = string
-    default = "latifa-static-travel"
+    default = "travelwebsite-s3-alert"
+}
+
+variable "sns_cloudfront_alert" {
+    type = string
+    default = "travelwebsite-cloudfront-alert"
+  
 }
