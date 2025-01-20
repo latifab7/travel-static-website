@@ -1,0 +1,36 @@
+# global variables
+variables:            
+    AWS_ACCES_KEY : ${AWS_ACCESS_KEY_ID}
+    AWS_SECRET_KEY : ${AWS_SECRET_ACCESS_KEY}
+
+stages:
+  - deploy_infrastructure
+  - upload_website
+
+
+# Deploy Infrastructure Stage
+deploy_infrastructure:
+  stage: deploy_infrastructure
+  image:
+    name: hashicorp/terraform
+    entrypoint : [""]       
+  before_script: 
+    - cd ./terraform/
+  script:
+    - terraform init
+    - terraform apply -auto-approve
+  rules:
+    - when: manual # Allow manual triggering later if needed
+
+
+upload_content:
+  stage: upload_website
+  image: amazon/aws-cli:latest 
+  before_script:
+    - cd ./public/
+  script:
+    - aws s3 sync . s3://$S3_BUCKET_NAME/ 
+  rules:
+    - changes:
+        - public/** # Automatically trigger if public/ changes
+    - when: manual # Allow manual triggering if needed
