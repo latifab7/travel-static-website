@@ -32,7 +32,7 @@ resource "aws_sns_topic_subscription" "sns_virginia_region" {
 # CLOUDWATCH ALARMS - CLOUDFRONT - CREATE IN US-EAST-1
 ########################################################
 
-# Alarm to be trigger if Error Rate exceed 20 within 5 min
+# Alarm to be triggered if Error Rate exceed 20 within 5 min
 resource "aws_cloudwatch_metric_alarm" "client_error" {
   provider                  = aws.us-east-1
   alarm_name                = "cloudfront_client_error"
@@ -53,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "client_error" {
 }
 
 
-# Alarm to be trigger is the total request per day exceed 100 000 request
+# Alarm to be triggered is the total request per day exceed 100 000 request
 resource "aws_cloudwatch_metric_alarm" "cloudfront_requests_alarm_daily" {
   provider            = aws.us-east-1
   alarm_name          = "CloudFront-Requests-Daily"
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_requests_alarm_daily" {
     DistributionId = var.cloudfront_id
   }
 
-  alarm_actions = [aws_sns_topic.sns_cloudfront.arn] # to change 
+  alarm_actions = [aws_sns_topic.sns_cloudfront.arn] 
 }
 
 
@@ -77,7 +77,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_requests_alarm_daily" {
 # CLOUDWATCH ALARMS - S3
 #####################################
 
-# Alarm to be trigger when Object number exceed 400 - Once a day
+# Alarm to be triggered when Object number exceed 400 - Once a day
 resource "aws_cloudwatch_metric_alarm" "bucket_object_alarm" {
   alarm_name                = "bucket_object_alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
@@ -97,7 +97,7 @@ resource "aws_cloudwatch_metric_alarm" "bucket_object_alarm" {
   alarm_actions = [aws_sns_topic.sns_s3.arn]
 }
 
-# Alarm to be trigger when Bucket total size exceed 4GB - Once a day
+# Alarm to be triggered when Bucket total size exceed 4GB - Once a day
 resource "aws_cloudwatch_metric_alarm" "bucket_size_alarm" {
   alarm_name                = "bucket_size_alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"

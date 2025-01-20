@@ -11,6 +11,7 @@ This project showcases my travel experiences and photography portfolio through a
 - Setup Instructions
 - Deployment
 - Monitoring
+- Troubleshooting
 - Cost Optimization
 - License
 
@@ -154,6 +155,28 @@ This project integrates AWS CloudWatch for resource monitoring. Key metrics like
 1. 4xx errors: If there is an increase in client errors.
 2. Bucket size: To monitor if the website's storage usage exceeds a set limit.
 3. HTTP requests: To track the number of requests served by CloudFront.
+
+## Troubleshooting
+
+### Issue:
+CloudWatch alarms for CloudFront metrics were created in the eu-west-3 region. While the creation of the alarms succeeded, no data was fetched for over a day unlike S3 alerts.
+
+![error](assests/cloudwatcherror.png)
+
+### Investigation:
+Upon further investigation, I discovered that CloudWatch alarms for CloudFront metrics can only be created and accessed in the us-east-1 region. This is because CloudFront's metrics are only available in the us-east-1 region, even though CloudWatch can be configured in other regions.
+
+### Solution:
+To resolve this issue,the following changes to our Terraform configuration was made:
+
+- Added a new provider configuration for us-east-1: A new provider alias for the us region was introduced in our Terraform configuration.
+- Created a new SNS topic in us-east-1: Since SNS topics are region-specific, I created a separate SNS topic in us-east-1 for receiving email alerts related to CloudFront alarms.
+- Reconfigured CloudWatch alarms to use the us-east-1 provider: I updated the CloudWatch alarm resources for CloudFront metrics to use the newly created us-east-1 provider.
+- Kept the rest of the configuration in eu-west-3: The rest of our resources, including those for S3 and other services, remained in the eu-west-3 region.
+
+![terraform](assests/cloudwatch.png)
+![results](assests/console.png)
+
 
 ## Cost Optimization
 To keep the project within the AWS Free Tier limits, we have optimized resources as follows:

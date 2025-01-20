@@ -17,7 +17,7 @@ provider "aws" {
   region = "eu-west-3"
 }
 
-# Provider for Cloudwatch Alarms ans SNS 
+# Provider for Cloudwatch Alarms and SNS 
 provider "aws" {
   alias = "us-east-1"
   region = "us-east-1"
